@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:food_delivery/utils/app_constants.dart';
 import 'package:get/get.dart';
 
@@ -20,6 +22,8 @@ class ApiClient extends GetConnect implements GetxService {
     try {
       Response response = await get(uri);
       return response;
+      // var decodedResponse = jsonDecode(response.body);
+      // return decodedResponse;
     } catch (e) {
       return Response(statusCode: 1, statusText: e.toString());
     }
