@@ -23,7 +23,7 @@ class CartController extends GetxController {
           price: product.price,
           img: product.img,
           quantity: quantity,
-          isExit: true,
+          isExist: true,
           time: DateTime.now().toString(),
         );
       },

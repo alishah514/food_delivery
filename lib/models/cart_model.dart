@@ -4,7 +4,7 @@ class CartModel {
   int? price;
   String? img;
   int? quantity;
-  bool? isExit;
+  bool? isExist;
   String? time;
 
   CartModel({
@@ -13,7 +13,7 @@ class CartModel {
     this.price,
     this.img,
     this.quantity,
-    this.isExit,
+    this.isExist,
     this.time,
   });
 
@@ -23,7 +23,7 @@ class CartModel {
     price = json['price'];
     img = json['img'];
     quantity = json['quantity'];
-    isExit = json['isExit'];
+    isExist = json['isExist'];
     time = json['time'];
   }
 }

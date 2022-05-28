@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery/controller/cart_controller.dart';
 import 'package:food_delivery/controller/popular_product_controller.dart';
 import 'package:food_delivery/utils/app_constants.dart';
 import 'package:get/get.dart';
@@ -28,7 +29,8 @@ class PopularFoodDetail extends StatelessWidget {
         Get.find<PopularProductController>().popularProductList[pageId];
     // print("page is Id" + pageId.toString());
     // print("product name is" + product.name.toString());
-    Get.find<PopularProductController>().initProduct();
+    Get.find<PopularProductController>()
+        .initProduct(Get.find<CartController>());
 
     return Scaffold(
         backgroundColor: Colors.white,
