@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/controller/cart_controller.dart';
 import 'package:food_delivery/controller/popular_product_controller.dart';
 import 'package:food_delivery/controller/recommended_product_controller.dart';
+import 'package:food_delivery/pages/home/main_food_page.dart';
 import 'package:food_delivery/utils/app_constants.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -53,11 +55,16 @@ class RecommendedFoodDetail extends StatelessWidget {
                               ? Positioned(
                                   right: 0,
                                   top: 0,
-                                  child: AppIcon(
-                                    icon: Icons.circle,
-                                    size: 20,
-                                    iconColor: Colors.transparent,
-                                    backgroundColor: AppColors.mainColor,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(() => MainFoodPage());
+                                    },
+                                    child: AppIcon(
+                                      icon: Icons.circle,
+                                      size: 20,
+                                      iconColor: Colors.transparent,
+                                      backgroundColor: AppColors.mainColor,
+                                    ),
                                   ),
                                 )
                               : Container(),
@@ -102,13 +109,15 @@ class RecommendedFoodDetail extends StatelessWidget {
               pinned: true,
               backgroundColor: AppColors.yellowColor,
               expandedHeight: 300,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Image.network(
-                  AppConstants.BASE_URL +
-                      AppConstants.UPLOAD_URL +
-                      product.img!,
-                  width: double.maxFinite,
-                  fit: BoxFit.cover,
+              flexibleSpace: CachedNetworkImage(
+                imageUrl:
+                    "https://idsb.tmgrup.com.tr/ly/uploads/images/2021/01/27/88750.jpg",
+                imageBuilder: (context, imageProvider) => FlexibleSpaceBar(
+                  background: Image.network(
+                    "https://idsb.tmgrup.com.tr/ly/uploads/images/2021/01/27/88750.jpg",
+                    width: double.maxFinite,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),

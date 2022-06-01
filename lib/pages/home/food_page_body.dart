@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/controller/popular_product_controller.dart';
@@ -133,24 +134,35 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                         child: Row(
                           children: [
                             //image section
-                            Container(
-                              width: Dimensions.listViewImageSize,
-                              height: Dimensions.listViewImageSize,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.circular(Dimensions.radius20),
-                                color: Colors.white38,
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: NetworkImage(
-                                    AppConstants.BASE_URL +
-                                        AppConstants.UPLOAD_URL +
-                                        recommendedProduct
-                                            .recommendedProductList[index].img!,
+
+                            CachedNetworkImage(
+                              imageUrl:
+                                  "https://idsb.tmgrup.com.tr/ly/uploads/images/2021/01/27/88750.jpg",
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                width: Dimensions.listViewImageSize,
+                                height: Dimensions.listViewImageSize,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.radius20),
+                                  color: Colors.white38,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: imageProvider,
                                   ),
                                 ),
                               ),
                             ),
+                            // placeholder: (context, url) => Container(
+                            //   alignment: Alignment.center,
+                            //   child: CircularProgressIndicator(
+                            //     color: AppColors.mainColor,
+                            //   ), // you can add pre loader iamge as well to show loading.
+                            // ), //show progress  while loading image
+                            // errorWidget: (context, url, error) =>
+                            //     Image.asset("images/chargha_biryani.jpg"),
+                            // //show no image available image on error loading
+
                             //text section
                             Expanded(
                               child: Container(
@@ -254,23 +266,30 @@ class _FoodPageBodyState extends State<FoodPageBody> {
             onTap: () {
               Get.toNamed(RouteHelper.getPopularFood(index));
             },
-            child: Container(
-              height: Dimensions.pageViewContainer,
-              margin: EdgeInsets.only(
-                  left: Dimensions.width10, right: Dimensions.width10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radius30),
-                color: index.isEven ? Color(0xFF69c5df) : Color(0xFF9294cc),
-                image: DecorationImage(
-                  image: NetworkImage(
-                    AppConstants.BASE_URL +
-                        AppConstants.UPLOAD_URL +
-                        popularProduct.img!,
+            // child: CachedNetworkImage(
+            //   imageUrl: AppConstants.BASE_URL +
+            //       AppConstants.UPLOAD_URL +
+            //       popularProduct.img!,
+            //   imageBuilder: (context, imageProvider) =>
+            child: CachedNetworkImage(
+              imageUrl:
+                  "https://idsb.tmgrup.com.tr/ly/uploads/images/2021/01/27/88750.jpg",
+              imageBuilder: (context, imageProvider) => Container(
+                height: Dimensions.pageViewContainer,
+                margin: EdgeInsets.only(
+                    left: Dimensions.width10, right: Dimensions.width10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radius30),
+                  color: index.isEven ? Color(0xFF69c5df) : Color(0xFF9294cc),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: imageProvider,
                   ),
-                  fit: BoxFit.cover,
                 ),
               ),
             ),
+
+            // ),
           ),
           Align(
             alignment: Alignment.bottomCenter,

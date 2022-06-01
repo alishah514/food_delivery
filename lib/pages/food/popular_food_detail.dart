@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/controller/cart_controller.dart';
 import 'package:food_delivery/controller/popular_product_controller.dart';
 import 'package:food_delivery/models/products_model.dart';
+import 'package:food_delivery/pages/cart/cart_page.dart';
 import 'package:food_delivery/utils/app_constants.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -42,9 +43,8 @@ class PopularFoodDetail extends StatelessWidget {
             left: 0,
             right: 0,
             child: CachedNetworkImage(
-              imageUrl: AppConstants.BASE_URL +
-                  AppConstants.UPLOAD_URL +
-                  product.img!,
+              imageUrl:
+                  "https://idsb.tmgrup.com.tr/ly/uploads/images/2021/01/27/88750.jpg",
               imageBuilder: (context, imageProvider) => Container(
                 width: double.maxFinite,
                 height: Dimensions.popularFoodImgSize,
@@ -78,11 +78,16 @@ class PopularFoodDetail extends StatelessWidget {
                           ? Positioned(
                               right: 0,
                               top: 0,
-                              child: AppIcon(
-                                icon: Icons.circle,
-                                size: 20,
-                                iconColor: Colors.transparent,
-                                backgroundColor: AppColors.mainColor,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.to(() => CartPage());
+                                },
+                                child: AppIcon(
+                                  icon: Icons.circle,
+                                  size: 20,
+                                  iconColor: Colors.transparent,
+                                  backgroundColor: AppColors.mainColor,
+                                ),
                               ),
                             )
                           : Container(),
