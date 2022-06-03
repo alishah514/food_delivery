@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/controller/cart_controller.dart';
+import 'package:food_delivery/controller/popular_product_controller.dart';
+import 'package:food_delivery/controller/recommended_product_controller.dart';
 import 'package:food_delivery/pages/home/main_food_page.dart';
+import 'package:food_delivery/routes/route_helper.dart';
 import 'package:food_delivery/utils/colors.dart';
 import 'package:food_delivery/utils/dimensions.dart';
 import 'package:food_delivery/widgets/app_icon.dart';
@@ -32,7 +35,7 @@ class CartPage extends StatelessWidget {
                 SizedBox(width: Dimensions.width20 * 5),
                 GestureDetector(
                   onTap: () {
-                    Get.to(() => MainFoodPage());
+                    Get.toNamed(RouteHelper.getInitial());
                   },
                   child: AppIcon(
                     icon: Icons.home_outlined,
@@ -62,31 +65,51 @@ class CartPage extends StatelessWidget {
                   context: context,
                   removeTop: true,
                   child: GetBuilder<CartController>(builder: (cartController) {
+                    var _cartList = cartController.getItems;
                     return ListView.builder(
-                      itemCount: cartController.getItems.length,
+                      itemCount: _cartList.length,
                       itemBuilder: (_, index) {
                         return Container(
                           width: double.maxFinite,
                           height: Dimensions.font20 * 5,
                           child: Row(
                             children: [
-                              CachedNetworkImage(
-                                imageUrl:
-                                    "http://cdn.cnn.com/cnnnext/dam/assets/181019131728-14-pakistan-food-gajrela.jpg",
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  width: Dimensions.height20 * 5,
-                                  height: Dimensions.height20 * 5,
-                                  margin: EdgeInsets.only(
-                                      bottom: Dimensions.height10),
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: imageProvider,
+                              GestureDetector(
+                                onTap: () {
+                                  var popularIndex =
+                                      Get.find<PopularProductController>()
+                                          .popularProductList
+                                          .indexOf(_cartList[index].product!);
+                                  if (popularIndex >= 0) {
+                                    Get.toNamed(RouteHelper.getPopularFood(
+                                        popularIndex, "cartpage"));
+                                  } else {
+                                    var recommendedIndex =
+                                        Get.find<RecommendedProductController>()
+                                            .recommendedProductList
+                                            .indexOf(_cartList[index].product!);
+                                    Get.toNamed(RouteHelper.getRecommendedFood(
+                                        recommendedIndex, "cartpage"));
+                                  }
+                                },
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      "http://cdn.cnn.com/cnnnext/dam/assets/181019131728-14-pakistan-food-gajrela.jpg",
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    width: Dimensions.height20 * 5,
+                                    height: Dimensions.height20 * 5,
+                                    margin: EdgeInsets.only(
+                                        bottom: Dimensions.height10),
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: imageProvider,
+                                      ),
+                                      borderRadius: BorderRadius.circular(
+                                          Dimensions.radius20),
+                                      color: Colors.white,
                                     ),
-                                    borderRadius: BorderRadius.circular(
-                                        Dimensions.radius20),
-                                    color: Colors.white,
                                   ),
                                 ),
                               ),
@@ -130,7 +153,10 @@ class CartPage extends StatelessWidget {
                                               children: [
                                                 GestureDetector(
                                                     onTap: () {
-                                                      //popularProduct.setQuantity(false);
+                                                      cartController.addItem(
+                                                          _cartList[index]
+                                                              .product!,
+                                                          -1);
                                                     },
                                                     child: Icon(Icons.remove,
                                                         color: AppColors
@@ -139,14 +165,19 @@ class CartPage extends StatelessWidget {
                                                     width:
                                                         Dimensions.width10 / 2),
                                                 BigText(
-                                                  text: ("0"),
+                                                  text: _cartList[index]
+                                                      .quantity
+                                                      .toString(),
                                                 ), //popularProduct.inCartItems.toString()),
                                                 SizedBox(
                                                     width:
                                                         Dimensions.width10 / 2),
                                                 GestureDetector(
                                                     onTap: () {
-                                                      //popularProduct.setQuantity(true);
+                                                      cartController.addItem(
+                                                          _cartList[index]
+                                                              .product!,
+                                                          1);
                                                     },
                                                     child: Icon(Icons.add,
                                                         color: AppColors
@@ -169,6 +200,65 @@ class CartPage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: GetBuilder<PopularProductController>(
+        builder: (popularProduct) {
+          return Container(
+            height: Dimensions.bottomHeightBar,
+            padding: EdgeInsets.only(
+                top: Dimensions.height30,
+                bottom: Dimensions.height30,
+                left: Dimensions.width20,
+                right: Dimensions.width20),
+            decoration: BoxDecoration(
+              color: AppColors.buttonBackgroundColor,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(Dimensions.radius20 * 2),
+                topRight: Radius.circular(Dimensions.radius20 * 2),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                      top: Dimensions.height20,
+                      bottom: Dimensions.height20,
+                      left: Dimensions.width20,
+                      right: Dimensions.width20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimensions.radius20),
+                    color: Colors.white,
+                  ),
+                  child: Row(
+                    children: [
+                      SizedBox(width: Dimensions.width10 / 2),
+                      BigText(text: popularProduct.inCartItems.toString()),
+                      SizedBox(width: Dimensions.width10 / 2),
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    //popularProduct.addItem(product);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(
+                        top: Dimensions.height20,
+                        bottom: Dimensions.height20,
+                        left: Dimensions.width20,
+                        right: Dimensions.width20),
+                    child: BigText(text: "| Add to Cart", color: Colors.white),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      color: AppColors.mainColor,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        },
       ),
     );
   }
