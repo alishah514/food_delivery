@@ -38,4 +38,7 @@ class Dimensions {
   static double popularFoodImgSize = screenHeight / 2.41;
 
   static double bottomHeightBar = screenHeight / 7.03;
+
+  //splash screen size
+  static double splashImg = screenHeight / 3.38;
 }

@@ -21,11 +21,10 @@ import 'package:food_delivery/widgets/small.text.dart';
 
 class PopularFoodDetail extends StatelessWidget {
   final int pageId;
-  final String page;
+
   const PopularFoodDetail({
     Key? key,
     required this.pageId,
-    required this.page,
   }) : super(key: key);
 
   @override
@@ -66,14 +65,11 @@ class PopularFoodDetail extends StatelessWidget {
             left: Dimensions.width20,
             height: Dimensions.width20,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
                     onTap: () {
-                      if (page == "cartpage") {
-                        Get.toNamed(RouteHelper.getCartPage());
-                      } else {
-                        Get.toNamed(RouteHelper.getInitial());
-                      }
+                      Get.to(MainFoodPage());
                     },
                     child: AppIcon(icon: Icons.arrow_back_rounded)),
                 SizedBox(width: Dimensions.width80 * 5.5),

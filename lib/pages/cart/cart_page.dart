@@ -82,14 +82,14 @@ class CartPage extends StatelessWidget {
                                           .indexOf(_cartList[index].product!);
                                   if (popularIndex >= 0) {
                                     Get.toNamed(RouteHelper.getPopularFood(
-                                        popularIndex, "cartpage"));
+                                        popularIndex));
                                   } else {
                                     var recommendedIndex =
                                         Get.find<RecommendedProductController>()
                                             .recommendedProductList
                                             .indexOf(_cartList[index].product!);
                                     Get.toNamed(RouteHelper.getRecommendedFood(
-                                        recommendedIndex, "cartpage"));
+                                        recommendedIndex));
                                   }
                                 },
                                 child: CachedNetworkImage(
@@ -201,8 +201,8 @@ class CartPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: GetBuilder<PopularProductController>(
-        builder: (popularProduct) {
+      bottomNavigationBar: GetBuilder<CartController>(
+        builder: (cartController) {
           return Container(
             height: Dimensions.bottomHeightBar,
             padding: EdgeInsets.only(
@@ -233,7 +233,8 @@ class CartPage extends StatelessWidget {
                   child: Row(
                     children: [
                       SizedBox(width: Dimensions.width10 / 2),
-                      BigText(text: popularProduct.inCartItems.toString()),
+                      BigText(
+                          text: "\Rs " + cartController.totalAmount.toString()),
                       SizedBox(width: Dimensions.width10 / 2),
                     ],
                   ),
@@ -248,7 +249,7 @@ class CartPage extends StatelessWidget {
                         bottom: Dimensions.height20,
                         left: Dimensions.width20,
                         right: Dimensions.width20),
-                    child: BigText(text: "| Add to Cart", color: Colors.white),
+                    child: BigText(text: "Check Out", color: Colors.white),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(Dimensions.radius20),
                       color: AppColors.mainColor,

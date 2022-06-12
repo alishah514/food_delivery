@@ -30,12 +30,6 @@ class _FoodPageBodyState extends State<FoodPageBody> {
   double _height = Dimensions.pageViewContainer;
 
   @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
-
-  @override
   void initState() {
     super.initState();
     pageController.addListener(() {
@@ -46,6 +40,11 @@ class _FoodPageBodyState extends State<FoodPageBody> {
   }
 
   @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -124,8 +123,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        Get.toNamed(
-                            RouteHelper.getRecommendedFood(index, "home"));
+                        Get.toNamed(RouteHelper.getRecommendedFood(index));
                       },
                       child: Container(
                         margin: EdgeInsets.only(
@@ -265,7 +263,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
         children: [
           GestureDetector(
             onTap: () {
-              Get.toNamed(RouteHelper.getPopularFood(index, "home"));
+              Get.toNamed(RouteHelper.getPopularFood(index));
             },
             // child: CachedNetworkImage(
             //   imageUrl: AppConstants.BASE_URL +
